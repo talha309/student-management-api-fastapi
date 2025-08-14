@@ -25,3 +25,17 @@ This API allows:
 ---
 
 ## 📂 Project Structure
+
+---
+
+## **📷 What Pictures to Add**
+You can create an `assets/` folder in your repo and add:  
+1. **Swagger UI Screenshot** (when you run `/docs`).  
+2. **File upload screenshot** from the Swagger test.  
+3. (Optional) A small **API architecture diagram** showing:
+
+---
+
+If you want, I can **design those Swagger & diagram images** for you so your GitHub page looks professional and eye-catching. That way, your repo will attract attention.  
+Do you want me to make them?
+@talha309

@@ -21,12 +21,16 @@ app.mount("/static", StaticFiles(directory=UPLOAD_FOLDER), name="static")
 # ------------------- Models -------------------
 class User(BaseModel):
     email: EmailStr
-    password: str = Field(..., min_length=6, max_length=15, description="Password (6-15 characters)")
+    password: str = Field(..., min_length=6, max_length=15)
+class UpdateUser(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=6, max_length=15)
+
 
 class Student(BaseModel):
-    name: str = Field(..., example="Ali Khan", description="Full name of the student")
-    degree: str = Field(..., example="BS Computer Science", description="Degree program of the student")
-    DOB: date = Field(..., example="2000-05-15", description="Date of Birth (YYYY-MM-DD format)")
+    name: str = Field(..., )
+    degree: str = Field(...,)
+    DOB: date = Field(..., example="2000-05-15")
     CNIC: str = Field(
         ...,
         min_length=13,
@@ -64,6 +68,29 @@ def signup(user: User):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/update", summary="Update an existing user's password")
+def update_user(user_update: UpdateUser):
+    try:
+        # Search for the user in the users list
+        for user in users:
+            if user.email == user_update.email:
+                user.password = user_update.password
+                return {
+                    "message": "User password updated successfully",
+                    "status": "ok",
+                    "user": user.dict()
+                }
+
+        # If user not found
+        return {
+            "message": "User not found",
+            "status": "error"
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error updating user: {str(e)}")
+
 
 @app.post("/student", summary="Create a new student record")
 def create_student(student: Student, email: EmailStr):
